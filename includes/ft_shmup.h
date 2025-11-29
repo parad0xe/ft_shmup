@@ -13,4 +13,27 @@
 #ifndef FT_SHMUP_H
 # define FT_SHMUP_H
 
+typedef enum e_type
+{
+	PLAYER = 0,
+	ENNEMY,
+	LASER
+}	t_type;
+
+typedef enum e_dir
+{
+	UP = 0,
+	RIGHT,
+	DOWN,
+	LEFT
+}	t_dir;
+
+typedef struct s_game_entity
+{
+	t_type	type;
+	int 	position[2];
+	char	*sprite;
+	t_dir	direction;
+}	t_game_entity;
+
 #endif
