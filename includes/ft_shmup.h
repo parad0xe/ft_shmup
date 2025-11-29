@@ -6,15 +6,21 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 11:27:43 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 12:28:07 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_SHMUP_H
 # define FT_SHMUP_H
 
-#include <ncurses.h>
-#include <sys/time.h>
+# include <ncurses.h>
+# include <sys/time.h>
+
+# define WIDTH 80
+# define HEIGHT 30
+
+# define X 0
+# define Y 1
 
 typedef enum e_type
 {
@@ -45,26 +51,27 @@ typedef struct s_framerate
 
 typedef struct s_game_entity
 {
-	char	symbol;
 	t_type	type;
-	char	*sprite;
-	int		posititon[2];
+	char	sprite;
+	int		position[2];
 	int		direction[2];
+	int		speed;
 }	t_game_entity;
 
 typedef struct s_game
 {
+	WINDOW			*win;
 	int				is_over;
 	t_game_entity	player;
 	t_framerate		framerate;
 }	t_game;
 
 // game
-void	game_update_framerate(t_game *game);
+void	game_update_framerate(t_framerate *framerate);
 void	game_update(t_game *game);
 void	game_render(t_game *game);
 
 // utils
-long long	timeInMilliseconds(void);
+long long	time_in_milliseconds(void);
 
 #endif
