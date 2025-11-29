@@ -6,14 +6,19 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:11:54 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 08:31:17 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 09:05:08 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <ncurses.h>
 
 int	main(void)
 {
-	printf("Hello wolrd\n");
+	initscr();
+	cbreak();
+	noecho();
+
+	getch();
+	endwin();
 	return (0);
 }

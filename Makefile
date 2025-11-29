@@ -2,41 +2,31 @@
 NAME = ft_shmup
 
 CC = cc
-AR = ar rcs
 BUILD = build
 
 # flags
 CFLAGS = -MMD -MP -Wall -Wextra -Werror
 
+LIBS=-lncurses
+
 # files
-MANDATORY_DIRECTORY = mandatory
-SRCS=$(addprefix $(MANDATORY_DIRECTORY)/,\
+SRC_DIRECTORY = srcs
+SRCS=$(addprefix $(SRC_DIRECTORY)/,\
 	main.c \
 )
 
-BONUS_DIRECTORY = bonus
-BONUS_SRCS = $(addprefix $(BONUS_DIRECTORY)/,\
-	main.c\
-)
-
-OBJS = $(SRCS:%.c=$(BUILD)/%.o)
+OBJS = $(SRCS:$(SRC_DIRECTORY)/%.c=$(BUILD)/%.o)
 DEPS = $(OBJS:%.o=%.d)
 
 # rules
 all:
-	@rm -rf $(BUILD)/$(BONUS_DIRECTORY)
-	@mkdir -p $(BUILD)/$(MANDATORY_DIRECTORY)
+	@mkdir -p $(BUILD)
 	@$(MAKE) $(NAME) --no-print-directory
 
-bonus:
-	@rm -rf $(BUILD)/$(MANDATORY_DIRECTORY)
-	@mkdir -p $(BUILD)/$(BONUS_DIRECTORY)
-	@$(MAKE) $(NAME) SRCS="$(BONUS_SRCS)" --no-print-directory
-
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -Iincludes/ -o $@ $^
+	$(CC) $(CFLAGS) -Iincludes/ -o $@ $^ $(LIBS)
 
-$(BUILD)/%.o: %.c
+$(BUILD)/%.o: $(SRC_DIRECTORY)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -Iincludes/ -c $< -o $@
 
