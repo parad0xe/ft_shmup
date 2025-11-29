@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 14:41:40 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 20:24:41 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,34 @@
 # include <ncurses.h>
 # include <sys/time.h>
 
-# define MENU_HEIGHT 10
-# define GAME_HEIGHT 30
+# include <time.h>
+# include <stdlib.h>
+
+# define MENU_HEIGHT	3
+# define GAME_HEIGHT	20
+# define WIDTH			100
 
 # define ENTITY_ARRAY_SIZE 100
+# define BASE_HP 3
+
+
+
 
 typedef enum e_type
 {
 	PLAYER = 0,
 	ENEMY,
-	LASER
+	PLAYER_LASER,
+	ENEMY_LASER
 }	t_type;
+
+typedef enum e_game_status
+{
+	RUNNING = 0,
+	PAUSED,
+	OVER,
+	STOPPED
+}	t_game_status;
 
 typedef enum e_pos_component
 {
@@ -42,26 +59,31 @@ typedef enum e_dir
 	LEFT
 }	t_dir;
 
-typedef struct s_framerate
+typedef struct s_weapon
 {
-	long long	time_prev;
-	long long	time_current;
-	long long	time_elapsed;
-	long long	time_prev_fps;
-	double		delta;
-	double		accumulator;
-	int			fps_counter;
-	int			fps_display;
-}	t_framerate;
+	char	sprite;
+	int		bullet_speed;
+	int		active;
+	int		last_shoot_time;
+}			t_weapon;
+
+// TODO: implement this
+typedef struct s_game_stat
+{
+	int			hp;
+	size_t		n_kills;
+	long long	start_time;
+}	t_game_stat;
 
 typedef struct s_game_entity
 {
-	t_type	type;
-	char	sprite;
-	int		position[2];
-	int		direction[2];
-	int		speed;
-	int		active;
+	t_type		type;
+	t_weapon	weapon;
+	char		sprite;
+	int			position[2];
+	int			direction[2];
+	int			speed;
+	int			active;
 }	t_game_entity;
 
 typedef struct s_board
@@ -72,23 +94,37 @@ typedef struct s_board
 
 typedef struct s_game
 {
-	WINDOW			*win;
-	int				is_over;
+	t_game_stat		stat;
+	t_game_status	status;
 	t_game_entity	player;
-	t_framerate		framerate;
 	t_board			board;
-	WINDOW			*menu_win;
-	WINDOW			*game_win;
+	double			fps;
+	long long		fps_start_time;
+	size_t			frame_counter;
 }	t_game;
 
-// game
-void	game_update_framerate(t_framerate *framerate);
-void	game_update(t_game *game);
-void	game_render(t_game *game);
+// init
+void	init_enemy(t_game_entity enemy, size_t	index);
+void	init_entity_array(t_board board);
 
-void	print_game_entities(t_game board);
+// game
+void	game_update(t_game *game);
+void	game_render(t_game *game, WINDOW *gamewin);
+void	game_init(t_game *game);
+
+// render_utils
+void	print_game_entities(t_game board, WINDOW *gamewin);
+
+// entity
+int	advance_entity(t_game_entity *entity);
 
 // utils
 long long	time_in_milliseconds(void);
+
+// input
+void	handle_input(t_game *game);
+
+// ui
+void	menu_render(t_game *game, WINDOW *menuwin);
 
 #endif

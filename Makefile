@@ -5,7 +5,7 @@ CC = cc
 BUILD = build
 
 # flags
-CFLAGS = -MMD -MP -Wall -Wextra -Werror
+CFLAGS = -MMD -MP -Wall -Wextra -Werror -g
 
 LIBS=-lncurses
 
@@ -15,6 +15,11 @@ SRCS=$(addprefix $(SRC_DIRECTORY)/,\
 	utils.c \
 	game.c \
 	main.c \
+	entity.c \
+	render_utils.c \
+	ui.c \
+	input.c \
+	enemy.c \
 )
 
 OBJS = $(SRCS:$(SRC_DIRECTORY)/%.c=$(BUILD)/%.o)
