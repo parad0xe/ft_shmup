@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 12:28:07 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 14:41:40 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,23 @@
 # include <ncurses.h>
 # include <sys/time.h>
 
-# define WIDTH 80
-# define HEIGHT 30
+# define MENU_HEIGHT 10
+# define GAME_HEIGHT 30
 
-# define X 0
-# define Y 1
+# define ENTITY_ARRAY_SIZE 100
 
 typedef enum e_type
 {
 	PLAYER = 0,
-	ENNEMY,
+	ENEMY,
 	LASER
 }	t_type;
+
+typedef enum e_pos_component
+{
+	ROW = 0,
+	COL
+}	t_pos_component;
 
 typedef enum e_dir
 {
@@ -56,7 +61,14 @@ typedef struct s_game_entity
 	int		position[2];
 	int		direction[2];
 	int		speed;
+	int		active;
 }	t_game_entity;
+
+typedef struct s_board
+{
+	size_t			first_available_index;
+	t_game_entity	board_array[ENTITY_ARRAY_SIZE];
+}	t_board;
 
 typedef struct s_game
 {
@@ -64,12 +76,17 @@ typedef struct s_game
 	int				is_over;
 	t_game_entity	player;
 	t_framerate		framerate;
+	t_board			board;
+	WINDOW			*menu_win;
+	WINDOW			*game_win;
 }	t_game;
 
 // game
 void	game_update_framerate(t_framerate *framerate);
 void	game_update(t_game *game);
 void	game_render(t_game *game);
+
+void	print_game_entities(t_game board);
 
 // utils
 long long	time_in_milliseconds(void);

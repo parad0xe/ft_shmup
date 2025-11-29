@@ -6,11 +6,12 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 10:28:53 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 13:15:06 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 14:44:21 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
+#include <ncurses.h>
 
 void	game_update_framerate(t_framerate *framerate)
 {
@@ -31,9 +32,11 @@ void	game_update(t_game *game)
 }
 
 void	game_render(t_game *game)
-{
-	box(game->win, 0, 0);
-	
+{	
+	werase(game->game_win);	
+	wborder(game->menu_win, 0, 0, 0, 0, 0, 0, 0, 0);
+	wborder(game->game_win, 0, 0, 0, 0, 0, 0, 0, 0);
+
 	if (game->framerate.time_current - game->framerate.time_prev_fps >= 1000)
 	{
 		game->framerate.fps_display = game->framerate.fps_counter;
@@ -42,16 +45,22 @@ void	game_render(t_game *game)
 	}
 
 	mvwprintw(
-		game->win,
+		game->game_win,
 		0, 0,
 		"fps: %d",
 		game->framerate.fps_display
 	);
 	mvwprintw(
-		game->win,
-		game->player.position[Y],
-		game->player.position[X],
+		game->game_win,
+		game->player.position[ROW],
+		game->player.position[COL],
 		"%c",
 		game->player.sprite
 	);
+	print_game_entities(*game);
+	
+	mvwprintw(game->menu_win, 0, 0, "fps: %d", game->framerate.fps_display);
+	
+	wrefresh(game->menu_win);
+	wrefresh(game->game_win);
 }
