@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:57:29 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/29 19:47:49 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 22:10:52 by nlallema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	_handle_input_player(t_game *game, int ch)
 				game->player.position[COL] -= 1;
 			break ;
 		case KEY_RIGHT:
-			if (game->player.position[COL] + 1 < WIDTH - 1)
+			if (game->player.position[COL] + 1 < GAME_WIDTH - 1)
 				game->player.position[COL] += 1;
 	}
 }

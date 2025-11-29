@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:11:54 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 20:10:59 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 22:18:36 by nlallema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int	main(void)
 	curs_set(0);
 	srand(time(NULL));
 
-	WINDOW	*menuwin = subwin(stdscr, MENU_HEIGHT, WIDTH, 0, 0);
-	WINDOW	*gamewin = subwin(stdscr, GAME_HEIGHT, WIDTH, 4, 0);
+	WINDOW	*menuwin = subwin(stdscr, MENU_HEIGHT, MENU_WIDTH, 0, 0);
+	WINDOW	*gamewin = subwin(stdscr, GAME_HEIGHT, GAME_WIDTH, 4, 0);
+	WINDOW	*pausewin = subwin(stdscr, PAUSE_HEIGHT, PAUSE_WIDTH, GAME_HEIGHT/2, GAME_WIDTH/2 - PAUSE_WIDTH/2);
 	//TODO: look for failed allocation
 
 
@@ -41,12 +42,15 @@ int	main(void)
 		if (game.status != PAUSED)
 			game_update(&game);
 		menu_render(&game, menuwin);
-		game_render(&game, gamewin);
+		if (game.status != PAUSED)
+			game_render(&game, gamewin);
+		else
+			pause_render(pausewin);
 	}
 
 	delwin(menuwin);
 	delwin(gamewin);
-	delwin(stdscr);
+	delwin(pausewin);
 	endwin();
 	return (0);
 }

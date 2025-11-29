@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 20:24:41 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 22:17:28 by nlallema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@
 # include <time.h>
 # include <stdlib.h>
 
+# define MAX_WIDTH 		90
+
 # define MENU_HEIGHT	3
+# define MENU_WIDTH		MAX_WIDTH
+
 # define GAME_HEIGHT	20
-# define WIDTH			100
+# define GAME_WIDTH		MAX_WIDTH
+
+# define PAUSE_HEIGHT	GAME_HEIGHT/3
+# define PAUSE_WIDTH	GAME_WIDTH/3
+
 
 # define ENTITY_ARRAY_SIZE 100
 # define BASE_HP 3
@@ -126,5 +134,6 @@ void	handle_input(t_game *game);
 
 // ui
 void	menu_render(t_game *game, WINDOW *menuwin);
+void	pause_render(WINDOW *pausewin);
 
 #endif
