@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 11:24:42 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/29 11:27:43 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 
 #include <ncurses.h>
 #include <sys/time.h>
+
+typedef enum e_type
+{
+	PLAYER = 0,
+	ENNEMY,
+	LASER
+}	t_type;
+
+typedef enum e_dir
+{
+	UP = 0,
+	RIGHT,
+	DOWN,
+	LEFT
+}	t_dir;
 
 typedef struct s_framerate
 {
@@ -32,6 +47,7 @@ typedef struct s_game_entity
 {
 	char	symbol;
 	t_type	type;
+	char	*sprite;
 	int		posititon[2];
 	int		direction[2];
 }	t_game_entity;
