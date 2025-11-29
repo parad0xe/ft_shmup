@@ -12,6 +12,8 @@ LIBS=-lncurses
 # files
 SRC_DIRECTORY = srcs
 SRCS=$(addprefix $(SRC_DIRECTORY)/,\
+	utils.c \
+	game.c \
 	main.c \
 )
 
