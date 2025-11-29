@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
+#include <ncurses.h>
 
 void	game_update_framerate(t_game *game)
 {
@@ -39,5 +40,8 @@ void	game_render(t_game *game)
 		game->framerate.time_prev_fps = game->framerate.time_current;
 	}
 
-	mvprintw(0, 0, "fps: %d", game->framerate.fps_display);
+	print_game_entities(*game);
+	wrefresh(game->menu_win);
+	mvwprintw(game->menu_win, 0, 0, "fps: %d", game->framerate.fps_display);
+	wrefresh(game->menu_win);
 }
