@@ -12,11 +12,9 @@
 
 #include "ft_shmup.h"
 #include "core.h"
-#include <ncurses.h>
-#include <unistd.h>
-#include <string.h>
+#include "renderer.h"
 
-static void	_configure_global_components()
+static void	_configure_global_components(void)
 {
 	initscr();
 	cbreak();
@@ -29,30 +27,34 @@ static void	_configure_global_components()
 	if (has_colors() == FALSE)
 	{
 		endwin();
-		write(2,ERR_NOCOLORS, strlen(ERR_NOCOLORS));
-		exit(1);
+		write(2, ERR_NOCOLORS, strlen(ERR_NOCOLORS));
 	}
 	start_color();
 	init_pair(1, COLOR_BLACK, COLOR_BLACK);
+	init_pair(2, COLOR_RED, COLOR_BLACK);
+	init_pair(3, COLOR_WHITE, COLOR_BLACK);
+	init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(5, COLOR_CYAN, COLOR_BLACK);
+	init_pair(6, COLOR_BLUE, COLOR_BLACK);
 }
 
-void	run_game(t_game *game, t_windows windows)
+static void	_run_game(t_game *game, t_windows windows)
 {
 	int	x, y;
+	int origin_x, origin_y;
+
+	getmaxyx(stdscr, origin_y, origin_x);
 	game_init(game);
 	while (game->status != OVER && game->status != STOPPED)
 	{
-
-		// handlers
 		handle_input(game);
-
 		getmaxyx(stdscr, y, x);
-		if (x < GAME_WIDTH || y < GAME_HEIGHT)
+		if (x != origin_x || y != origin_y)
 		{
 			game->status = STOPPED;
-			write(2,ERR_RESIZED, strlen(ERR_RESIZED));
+			endwin();
+			write(2, ERR_RESIZED, strlen(ERR_RESIZED));
 		}
-
 		if (game->status != PAUSED)
 			game_update(game);
 		menu_render(game, windows.menuwin);
@@ -62,10 +64,10 @@ void	run_game(t_game *game, t_windows windows)
 			pause_render(windows.pausewin);
 		wresize(windows.menuwin, y, x);
 	}
-	
 	if (game->status == OVER)
 		gameover_render(game, windows.gameoverwin);
 }
+
 int	main(void)
 {
 	int		x, y;
@@ -73,11 +75,14 @@ int	main(void)
 	t_game	game;
 
 	_configure_global_components();
-
+	if (!stdscr)
+	{
+		write(2, MEMORY_ERROR_MSG, strlen(MEMORY_ERROR_MSG));
+		return (1);
+	}
 	getmaxyx(stdscr, y, x);
 	center_x = x / 2;
 	center_y = y / 2;
-
 	WINDOW	*menuwin = subwin(stdscr, MENU_HEIGHT, MENU_WIDTH, center_y - MENU_HEIGHT - GAME_HEIGHT / 2, center_x - MENU_WIDTH / 2);
 	WINDOW	*gamewin = subwin(stdscr, GAME_HEIGHT, GAME_WIDTH, center_y - GAME_HEIGHT / 2, center_x - GAME_WIDTH / 2);
 	WINDOW	*pausewin = subwin(stdscr, PAUSE_HEIGHT, PAUSE_WIDTH, center_y - PAUSE_HEIGHT / 2, center_x - PAUSE_WIDTH / 2);
@@ -93,11 +98,11 @@ int	main(void)
 	{
 		endwin();
 		write(2, MEMORY_ERROR_MSG, strlen(MEMORY_ERROR_MSG));
+		return (1);
 	}
-
 	while (game.status != STOPPED)
 	{
-		run_game(&game, windows);
+		_run_game(&game, windows);
 		while (game.status != STOPPED && game.status != RUNNING)
 		{
 			handle_input(&game);
@@ -107,4 +112,3 @@ int	main(void)
 	endwin();
 	return (0);
 }
-

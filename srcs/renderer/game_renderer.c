@@ -16,14 +16,15 @@ static void	_render_entities(t_game *game, WINDOW *gamewin)
 {
 	t_entity current;
 	
-	wattron(gamewin, COLOR_PAIR(1) | A_DIM);
 	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; ++i)
 	{
 		current = game->board.background[i];
+		int random_color = randint(4, 6);
+		wattron(gamewin, COLOR_PAIR(random_color) | A_DIM);
 		if(current.active)
 			mvwaddch(gamewin, current.position.y, current.position.x, current.sprite);
+		wattroff(gamewin, COLOR_PAIR(random_color) | A_DIM);
 	}
-	wattroff(gamewin, COLOR_PAIR(1) | A_DIM);
 	
 	for (int i = 0; i < FRIENDS_ARRAY_SIZE; ++i)
 	{
@@ -35,7 +36,14 @@ static void	_render_entities(t_game *game, WINDOW *gamewin)
 	{
 		current = game->board.enemies[i];
 		if(current.active)
+		{
+			if (current.type == ENEMY)
+				wattron(gamewin, COLOR_PAIR(3) | A_BOLD);
+			else if (current.type == ENEMY_LASER)
+				wattron(gamewin, COLOR_PAIR(2) | A_BOLD);
 			mvwaddch(gamewin, current.position.y, current.position.x, current.sprite);
+			wattroff(gamewin, COLOR_PAIR(2) | A_BOLD | A_DIM);
+		}
 	}
 }
 
