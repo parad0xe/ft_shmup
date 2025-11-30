@@ -137,7 +137,6 @@ void	game_update_player_position(t_game *game, int x, int y)
 			if (game->board.enemies[i].type == ENEMY_LASER)
 			{
 				--game->stat.hp;
-				// TODO: destroy entities
 			}
 			_game_destroy_entity(game, &game->board.enemies[i]);
 		}
