@@ -32,7 +32,7 @@ void	set_background(t_entity *slot)
 		slot->speed = 500 / MAX_FPS;
 	}
 	slot->position = (t_xy){ 
-		.x = GAME_WIDTH-1, 
+		.x = GAME_WIDTH-2, 
 		.y = randint(1, GAME_HEIGHT - 1) 
 	};
 	slot->direction = (t_xy){ 

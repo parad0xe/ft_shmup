@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
+#include "core.h"
 
 static t_entity *_find_available_slot(t_entity *array, size_t size)
 {
@@ -159,7 +160,7 @@ void	game_update(t_game *game)
 
 	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; ++i)
 	{
-		if (randfloat(0, 1) < 0.0005)
+		if (randfloat(0, 1) < 0.002)
 			game_add_background(game);
 		
 		if (background[i].active == 0)
@@ -221,7 +222,8 @@ void	game_update(t_game *game)
 			entity_advance(&enemies[i]);
 			if (is_out_of_box(&enemies[i]))
 			{
-				--game->stat.hp;
+				if (enemies[i].type == ENEMY)
+					--game->stat.hp;
 				game_destroy_entity(game, &enemies[i]);
 			}
 

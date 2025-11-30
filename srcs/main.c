@@ -11,7 +11,10 @@
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
+#include "core.h"
+#include <ncurses.h>
 #include <unistd.h>
+#include <string.h>
 
 static void	_configure_global_components()
 {
@@ -26,7 +29,7 @@ static void	_configure_global_components()
 	if(has_colors() == FALSE)
 	{	
 		endwin();
-		write(2, "Your terminal does not support color\n", 37);
+		write(2,ERR_NOCOLORS, strlen(ERR_NOCOLORS));
 		exit(1);
 	}
 	start_color();
@@ -49,13 +52,13 @@ int	main(void)
 	WINDOW	*gamewin = subwin(stdscr, GAME_HEIGHT, GAME_WIDTH, center_y - GAME_HEIGHT / 2, center_x - GAME_WIDTH / 2);
 	WINDOW	*pausewin = subwin(stdscr, PAUSE_HEIGHT, PAUSE_WIDTH, center_y - PAUSE_HEIGHT / 2, center_x - PAUSE_WIDTH / 2);
 	WINDOW	*gameoverwin = subwin(stdscr, GAMEOVER_HEIGHT, GAMEOVER_WIDTH, center_y - GAMEOVER_HEIGHT / 2, center_x - GAMEOVER_WIDTH / 2);
-	//TODO: look for failed allocation
+	
+	if (!menuwin || !gamewin || !pausewin || gameoverwin)
+	{
+		endwin();
+		write(2, MEMORY_ERROR_MSG, strlen(MEMORY_ERROR_MSG));
+	}
 
-	attron(COLOR_PAIR(1) | A_DIM);
-	for (int i = 0; i < x; i++)
-		for (int j = 0; j < y; j++)
-			wprintw(stdscr, "+");
-	attroff(COLOR_PAIR(1) | A_DIM);
 	game_init(&game);
 	while (game.status != OVER && game.status != STOPPED)
 	{
@@ -63,7 +66,7 @@ int	main(void)
 		// handlers
 		handle_input(&game);
 
-		getmaxyx(gamewin, y, x);
+		getmaxyx(stdscr, y, x);
 		if (x < GAME_WIDTH)
 			game.status = PAUSED;
 
@@ -74,18 +77,18 @@ int	main(void)
 			game_render(&game, gamewin);
 		else
 			pause_render(pausewin);
+		wresize(menuwin, y, x);
 	}
 	
 	if (game.status == OVER)
-	{
-		nodelay(stdscr, FALSE);
 		gameover_render(&game, gameoverwin);
-		wgetch(stdscr);
+
+	while (game.status == OVER)
+	{
+		handle_input(&game);
+		usleep(50);
 	}
 
-	delwin(menuwin);
-	delwin(gamewin);
-	delwin(pausewin);
 	endwin();
 	return (0);
 }

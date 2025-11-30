@@ -12,6 +12,7 @@
 
 #include "ft_shmup.h"
 #include "ncurses.h"
+#include "core.h"
 
 static void	_handle_input_player(t_game *game, int ch)
 {

@@ -42,7 +42,7 @@ static void	_render_entities(t_game *game, WINDOW *gamewin)
 void    game_render(t_game *game, WINDOW *gamewin)
 {
 	werase(gamewin);
-	wborder(gamewin, 0, 0, 0, 0, 0, 0, 0, 0);
+	// wborder(gamewin, 0, 0, 0, 0, 0, 0, 0, 0);
 
 	_render_entities(game, gamewin);
 

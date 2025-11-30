@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
+#include "core.h"
 
 int		entity_check_collision(t_entity entity, t_entity other)
 {

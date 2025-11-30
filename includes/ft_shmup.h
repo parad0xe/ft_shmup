@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 14:21:44 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 16:30:37 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@
 # define BACKGROUND_ARRAY_SIZE 100
 # define BASE_HP 10
 
-
 # define DEFAULT_ENEMY_SPEED	240
 # define DEFAULT_BULLET_SPEED	160
 # define DEFAULT_SHOOTING_RATE	720
+
+# define MEMORY_ERROR_MSG "Memory allocation failed\n"
+# define ERR_NOCOLORS "Your terminal does not support color\n"
 // === ENUMS ==
 
 typedef enum e_entity_type
@@ -135,15 +137,6 @@ typedef struct s_game
 	size_t			frame_counter;
 }	t_game;
 
-// == PROTOTYPES
-
-// game
-void		game_init(t_game *game);
-int			game_shoot(t_game *game, t_entity shooter, void (*set_bullet)(t_entity shooter, t_entity *bullet));
-// int			game_add_entity(t_entity *entity_array, size_t slot, void (*set_entity)(t_entity *entity));
-int			game_add_enemy(t_game *game);
-void		game_update(t_game *game);
-
 // entity
 int			entity_advance(t_entity *entity);
 int			entity_check_collision(t_entity entity, t_entity other);
@@ -163,7 +156,7 @@ void		set_player1(t_entity *player);
 void		set_bullet1(t_entity shooter, t_entity *bullet);
 
 // background
-void	set_background(t_entity *slot);
+void		set_background(t_entity *slot);
 
 // game_renderer
 void		game_render(t_game *game, WINDOW *gamewin);
