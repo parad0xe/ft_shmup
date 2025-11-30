@@ -19,5 +19,6 @@ void		game_init(t_game *game);
 int			game_shoot(t_game *game, t_entity shooter, void (*set_bullet)(t_entity shooter, t_entity *bullet));
 int			game_add_enemy(t_game *game);
 void		game_update(t_game *game);
+void		game_update_player_position(t_game *game, int x, int y);
 
 #endif

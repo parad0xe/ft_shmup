@@ -123,7 +123,6 @@ typedef struct s_board
 	t_entity		friends[FRIENDS_ARRAY_SIZE];
 	t_entity		background[BACKGROUND_ARRAY_SIZE];
 	int				entity_counter;
-	unsigned int	first_available_index;
 }	t_board;
 
 typedef struct s_game
@@ -159,9 +158,11 @@ void		set_bullet1(t_entity shooter, t_entity *bullet);
 
 // background
 void		set_background(t_entity *slot);
+void		set_background_randpos(t_entity *slot);
 
 // time_utils
 long long	time_in_milliseconds(void);
+long long	time_in_us(void);
 
 // rand_utils
 int			randint(int min, int max);

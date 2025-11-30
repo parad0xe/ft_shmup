@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "entity.h"
 #include "ft_shmup.h"
 #include "core.h"
 
@@ -20,20 +21,16 @@ static void	_handle_input_player(t_game *game, int ch)
 	switch (ch)
 	{
 		case 'w':
-			if (game->player.position.y - 1 > 0)
-				game->player.position.y -= 1;
+			game_update_player_position(game, 0, -1);
 			break ;
 		case 's':
-			if (game->player.position.y + 1 < GAME_HEIGHT - 1)
-				game->player.position.y += 1;
+			game_update_player_position(game, 0, 1);
 			break ;
 		case 'a':
-			if (game->player.position.x - 1 > 0)
-				game->player.position.x -= 1;
+			game_update_player_position(game, -1, 0);
 			break ;
 		case 'd':
-			if (game->player.position.x + 1 < GAME_WIDTH - 1)
-				game->player.position.x += 1;
+			game_update_player_position(game, 1, 0);
 			break ;
 		case 'e':
 			game_add_enemy(game);

@@ -22,3 +22,14 @@ long long	time_in_milliseconds(void)
 	ms += tv.tv_usec / 1000;
 	return (ms);
 }
+
+long long time_in_us(void)
+{
+	struct timeval	tv;
+	long long	ms;
+
+	gettimeofday(&tv,NULL);
+	ms = tv.tv_sec * 1000000;
+	ms += tv.tv_usec;
+	return (ms);
+}

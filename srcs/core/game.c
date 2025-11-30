@@ -27,7 +27,7 @@ static t_entity	*_find_available_slot(t_entity *array, size_t size)
 	return (NULL);
 }
 
-static int	_game_add_background(t_game *game)
+static int	_game_add_background(t_game *game, void (f)(t_entity*))
 {
 	t_entity	*new;
 	t_entity	*background;
@@ -36,7 +36,7 @@ static int	_game_add_background(t_game *game)
 	new = _find_available_slot(background, BACKGROUND_ARRAY_SIZE);
 	if (new)
 	{
-		set_background(new);
+		f(new);
 		game->board.entity_counter++;
 	}
 	return (0);
@@ -72,8 +72,14 @@ void	game_init(t_game *game)
 	game->board = (t_board){0};
 	game->fps_start_time = time_in_milliseconds();
 	game->fps = 0.;
-	game->frame_counter = 1;
+	game->frame_counter = 0;
 	set_player1(&game->player);
+	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; ++i)
+	{
+		if (randfloat(0, 1) < 0.102)
+			_game_add_background(game, set_background_randpos);
+	}
+
 }
 
 int	game_shoot(t_game *game, t_entity shooter, void (*set_bullet)(t_entity shooter, t_entity *bullet))
@@ -108,6 +114,36 @@ int	game_add_enemy(t_game *game)
 	return (0);
 }
 
+void	game_update_player_position(t_game *game, int x, int y)
+{
+	t_entity player;
+
+	player = game->player;
+	if (player.position.x + x < 1 || player.position.x + x > GAME_WIDTH - 2)
+		return ;
+	if (player.position.y + y < 1 || player.position.y + y > GAME_HEIGHT- 2)
+		return ;
+	game->player.position.x += x;
+	game->player.position.y += y;
+	for (int i = 0; i < ENEMIES_ARRAY_SIZE; ++i)
+	{
+		if (entity_check_collision(player, game->board.enemies[i]))
+		{
+			if (game->board.enemies[i].type == ENEMY)
+			{
+				game->stat.hp = 0;
+				game->status = OVER;
+			}
+			if (game->board.enemies[i].type == ENEMY_LASER)
+			{
+				--game->stat.hp;
+				// TODO: destroy entities
+			}
+			_game_destroy_entity(game, &game->board.enemies[i]);
+		}
+	}
+}
+
 int	is_out_of_box(t_entity *entity)
 {
 	if (entity->position.x >= 1 && entity->position.x <= GAME_WIDTH - 2)
@@ -130,7 +166,6 @@ void	game_update(t_game *game)
 	enemies = game->board.enemies;
 	friends = game->board.friends;
 	background = game->board.background;
-	++game->frame_counter;
 	if (game->stat.hp == 0)
 	{
 		game->status = OVER;
@@ -155,7 +190,7 @@ void	game_update(t_game *game)
 	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; ++i)
 	{
 		if (randfloat(0, 1) < 0.002)
-			_game_add_background(game);
+			_game_add_background(game, set_background);
 		if (background[i].active == 0)
 			continue ;
 		else if (background[i].speed == 0)
@@ -182,6 +217,7 @@ void	game_update(t_game *game)
 		{
 			if (enemies[i].type == ENEMY)
 			{
+				game->stat.hp = 0;
 				game->status = OVER;
 				return ;
 			}
@@ -219,7 +255,9 @@ void	game_update(t_game *game)
 		if (is_out_of_box(&enemies[i]))
 			_game_destroy_entity(game, &enemies[i]);
 	}
-	while ((time_in_milliseconds() - game->last_frame_time) <= 1000 * (1. / (MAX_FPS)) )
-		usleep(500);
-	game->last_frame_time = time_in_milliseconds();
+	long long dif = (1000000 * 1. / (MAX_FPS)) - (time_in_us() - game->last_frame_time);
+	if (dif >= 0)
+		usleep(dif);
+	game->last_frame_time = time_in_us();
+	++game->frame_counter;
 }

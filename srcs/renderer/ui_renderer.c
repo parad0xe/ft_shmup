@@ -43,11 +43,11 @@ void	menu_render(t_game *game, WINDOW *menuwin)
 	if (current_timestamp - game->fps_start_time >= 1000.)
 	{
 		game->fps = game->frame_counter;
-		game->frame_counter = 1;
+		game->frame_counter = 0;
 		game->fps_start_time = current_timestamp;
 	}
 	werase(menuwin);
-	mvwprintw(menuwin, 10, 20, "fps: %-7.2f", game->fps);
+	mvwprintw(menuwin, 10, 20, "fps: %-7.f", game->fps);
 	mvwprintw(menuwin, 10, 40, "score: %zu", score);
 	mvwprintw(menuwin, 10, 60, "HP: %u", game->stat.hp);
 	mvwprintw(menuwin, 12, 20, "entities: %-4d", game->board.entity_counter);
