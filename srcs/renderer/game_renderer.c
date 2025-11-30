@@ -21,14 +21,12 @@ static void	_render_entities(t_game *game, WINDOW *gamewin)
 	{
 		current = game->board.friends[i];
 		if(current.active)
-			// mvwprintw(gamewin, current.position.y, current.position.x, "%c", current.sprite);
 			mvwaddch(gamewin, current.position.y, current.position.x, current.sprite);
 	}
 	for (int i = 0; i < ENEMIES_ARRAY_SIZE; ++i)
 	{
 		current = game->board.enemies[i];
 		if(current.active)
-			// mvwprintw(gamewin, current.position.y, current.position.x, "%c", current.sprite);
 			mvwaddch(gamewin, current.position.y, current.position.x, current.sprite);
 	}
 }
@@ -38,6 +36,7 @@ void    game_render(t_game *game, WINDOW *gamewin)
 	werase(gamewin);
 	wborder(gamewin, 0, 0, 0, 0, 0, 0, 0, 0);
 
+	_render_entities(game, gamewin);
 	mvwprintw(
 		gamewin,
 		game->player.position.y,
@@ -46,6 +45,5 @@ void    game_render(t_game *game, WINDOW *gamewin)
 		game->player.sprite
 	);
 
-	_render_entities(game, gamewin);
 	wrefresh(gamewin);
 }
