@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 16:30:37 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 16:42:08 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 
 # include <ncurses.h>
 # include <sys/time.h>
-
 # include <time.h>
 # include <stdlib.h>
-
+# include <string.h>
 # include <unistd.h>
 
 // == MACROS
@@ -157,14 +156,6 @@ void		set_bullet1(t_entity shooter, t_entity *bullet);
 
 // background
 void		set_background(t_entity *slot);
-
-// game_renderer
-void		game_render(t_game *game, WINDOW *gamewin);
-
-// ui_renderer
-void		gameover_render(t_game *game, WINDOW *gameoverwin);
-void		menu_render(t_game *game, WINDOW *menuwin);
-void		pause_render(WINDOW *pausewin);
 
 // time_utils
 long long	time_in_milliseconds(void);

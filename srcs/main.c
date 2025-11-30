@@ -6,15 +6,13 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:11:54 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 14:05:59 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 16:43:37 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
 #include "core.h"
-#include <ncurses.h>
-#include <unistd.h>
-#include <string.h>
+#include "renderer.h"
 
 static void	_configure_global_components()
 {
@@ -53,7 +51,7 @@ int	main(void)
 	WINDOW	*pausewin = subwin(stdscr, PAUSE_HEIGHT, PAUSE_WIDTH, center_y - PAUSE_HEIGHT / 2, center_x - PAUSE_WIDTH / 2);
 	WINDOW	*gameoverwin = subwin(stdscr, GAMEOVER_HEIGHT, GAMEOVER_WIDTH, center_y - GAMEOVER_HEIGHT / 2, center_x - GAMEOVER_WIDTH / 2);
 	
-	if (!menuwin || !gamewin || !pausewin || gameoverwin)
+	if (!menuwin || !gamewin || !pausewin || !gameoverwin)
 	{
 		endwin();
 		write(2, MEMORY_ERROR_MSG, strlen(MEMORY_ERROR_MSG));
