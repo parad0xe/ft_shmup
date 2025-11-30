@@ -6,11 +6,12 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:56:54 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/30 03:08:21 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 16:40:12 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
+#include "entity.h"
 
 void	set_enemy_badguy1(t_entity *enemy)
 {

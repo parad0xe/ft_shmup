@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   core.h                                             :+:      :+:    :+:   */
+/*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/30 16:29:52 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/30 16:40:49 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2025/11/30 16:38:57 by kbarru            #+#    #+#             */
+/*   Updated: 2025/11/30 16:39:45 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_shmup.h"
+#ifndef ENTITY_H
+# define ENTITY_H
 
-void		game_init(t_game *game);
-int			game_shoot(t_game *game, t_entity shooter, void (*set_bullet)(t_entity shooter, t_entity *bullet));
-int			game_add_enemy(t_game *game);
-void		game_update(t_game *game);
+# include "ft_shmup.h"
+
+int			entity_advance(t_entity *entity);
+int			entity_check_collision(t_entity entity, t_entity other);
+void		entity_set_weapon(t_entity *entity, char sprite, int speed);
+void		generate_wave(t_game *game);
+
+#endif

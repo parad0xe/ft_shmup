@@ -13,7 +13,7 @@
 #include "ft_shmup.h"
 #include "core.h"
 
-int		entity_check_collision(t_entity entity, t_entity other)
+int	entity_check_collision(t_entity entity, t_entity other)
 {
 	if (entity.active && other.active)
 		if (entity.position.x == other.position.x)
@@ -45,21 +45,9 @@ int	entity_advance(t_entity *entity)
  */
 void	generate_wave(t_game *game)
 {
-	//TODO: write a function that randomly creates enemies or not for each row.
-	
 	for (int i = 0; i < 8; ++i)
 	{
 		if (randint(0, 100) < 50)
 			game_add_enemy(game);
 	}
-}
-
-/**
- * @brief creates an ennemy on given position on given row
- */
-void	generate_enemy(t_board *board, int row)
-{
-	(void)board;
-	(void)row;
-	//TODO: implement this function
 }

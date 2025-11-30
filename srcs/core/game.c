@@ -6,19 +6,19 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 10:28:53 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 15:18:38 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 16:40:00 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
 #include "core.h"
+#include "entity.h"
 
 static t_entity *_find_available_slot(t_entity *array, size_t size)
 {
 	size_t	i;
 
 	i = -1;
-	// TODO: Improve performance by indexing the maximum unused index instead of iterating over the entire entity array.
 	while (++i < size)
 	{
 		if (array[i].active == 0)
@@ -133,7 +133,6 @@ void	game_update(t_game *game)
 	background = game->board.background;
 
 	++game->frame_counter;
-	// TODO: Improve performance by indexing the maximum unused index instead of iterating over the entire entity array.
 
 	if (game->stat.hp == 0)
 	{

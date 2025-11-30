@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 16:30:37 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 17:00:31 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@
 
 # define MEMORY_ERROR_MSG "Memory allocation failed\n"
 # define ERR_NOCOLORS "Your terminal does not support color\n"
+# define ERR_RESIZED "Terminal was resized\n"
+
 // === ENUMS ==
 
 typedef enum e_entity_type
@@ -97,7 +99,6 @@ typedef struct s_weapon
 	int		shooting_rate;
 }			t_weapon;
 
-// TODO: implement this
 typedef struct s_game_stat
 {
 	int			hp;
@@ -137,12 +138,13 @@ typedef struct s_game
 	size_t			frame_counter;
 }	t_game;
 
-// entity
-int			entity_advance(t_entity *entity);
-int			entity_check_collision(t_entity entity, t_entity other);
-void		entity_set_weapon(t_entity *entity, char sprite, int speed);
-void		generate_wave(t_game *game);
-
+typedef struct s_windows
+{
+	WINDOW	*gamewin;
+	WINDOW	*menuwin;
+	WINDOW	*pausewin;
+	WINDOW	*gameoverwin;
+}	t_windows;
 // input
 void		handle_input(t_game *game);
 

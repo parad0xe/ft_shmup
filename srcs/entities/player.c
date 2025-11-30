@@ -6,11 +6,13 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 23:52:53 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 03:08:34 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 16:40:31 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
+
+#include "entity.h"
 
 void    set_player1(t_entity *player)
 {
