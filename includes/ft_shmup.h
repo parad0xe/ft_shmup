@@ -21,6 +21,8 @@
 # include <time.h>
 # include <stdlib.h>
 
+# include <unistd.h>
+
 // == MACROS
 
 # define MAX_WIDTH 			90
@@ -37,11 +39,12 @@
 # define GAMEOVER_HEIGHT	GAME_HEIGHT/3
 # define GAMEOVER_WIDTH		GAME_WIDTH/2
 
+# define MAX_FPS			60
+
 
 # define ENEMIES_ARRAY_SIZE 100
 # define FRIENDS_ARRAY_SIZE 30
 # define BASE_HP 300
-
 
 // === ENUMS ==
 
@@ -120,6 +123,7 @@ typedef struct s_game
 	t_board			board;
 	double			fps;
 	long long		fps_start_time;
+	long long		last_frame_time;
 	size_t			frame_counter;
 }	t_game;
 

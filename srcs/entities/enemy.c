@@ -24,7 +24,7 @@ void	set_enemy_badguy1(t_entity *enemy)
 		.x = -1, 
 		.y = 0 
 	};
-	enemy->speed = 3000;
+	enemy->speed = 180 / MAX_FPS;
 	enemy->active = 1;
-	entity_set_weapon(enemy, '-', 2000);
+	entity_set_weapon(enemy, '-', 160 / MAX_FPS);
 }

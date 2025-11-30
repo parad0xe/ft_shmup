@@ -23,5 +23,5 @@ void    set_player1(t_entity *player)
     player->direction = (t_xy){0};
     player->speed = 0;
     player->active = 1;
-    entity_set_weapon(player, '-', 1000);
+    entity_set_weapon(player, '-', 160 / MAX_FPS);
 }

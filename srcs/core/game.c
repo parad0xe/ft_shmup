@@ -30,6 +30,7 @@ static t_entity *_find_available_slot(t_entity *array, size_t size)
 void	game_init(t_game *game)
 {
 	game->status= RUNNING;
+	game->last_frame_time = time_in_milliseconds();
 	game->stat = (t_game_stat){
 		.hp = BASE_HP,
 		.n_kills = 0,
@@ -92,7 +93,6 @@ int		is_out_of_box(t_entity *entity)
 	return (TRUE);
 }
 
-
 /**
 	* @brief updates the position of every game entity except player,
 	* @brief then renders the game on screen.
@@ -142,7 +142,7 @@ void	game_update(t_game *game)
 			continue ;
 
 		// shoot probability for enemy
-		if (enemies[i].type == ENEMY && randfloat(0, 30000) < 0.1)
+		if (enemies[i].type == ENEMY && randfloat(0, 1) < 0.005)
 			game_shoot(game, enemies[i], &set_bullet1);
 
 		// check collision between player and the entity
@@ -186,6 +186,8 @@ void	game_update(t_game *game)
 		}
 		if (is_out_of_box(&enemies[i]))
 			game_destroy_entity(game, &enemies[i]);
-		//TODO: check if entity is out of the box
 	}
+	while ((time_in_milliseconds() - game->last_frame_time ) <= 1000 * (1. / (MAX_FPS)))
+		usleep(500);
+	game->last_frame_time = time_in_milliseconds();
 }

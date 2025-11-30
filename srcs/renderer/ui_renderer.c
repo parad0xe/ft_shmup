@@ -44,7 +44,7 @@ void	menu_render(t_game *game, WINDOW *menuwin)
 
 	if (time_in_milliseconds() - game->fps_start_time >= 1000.)
 	{
-		game->fps = game->frame_counter / 1000.;
+		game->fps = game->frame_counter;
 		game->frame_counter = 0;
 		game->fps_start_time = time_in_milliseconds();
 	}
