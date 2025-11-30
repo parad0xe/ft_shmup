@@ -44,13 +44,14 @@ void    game_render(t_game *game, WINDOW *gamewin)
 	werase(gamewin);
 	wborder(gamewin, 0, 0, 0, 0, 0, 0, 0, 0);
 
+	_render_entities(game, gamewin);
+
 	mvwaddch(
 		gamewin,
 		game->player.position.y,
 		game->player.position.x,
 		game->player.sprite
 	);
-
-	_render_entities(game, gamewin);
+  
 	wrefresh(gamewin);
 }

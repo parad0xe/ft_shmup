@@ -41,13 +41,17 @@
 
 # define MAX_FPS			60
 
-
+# define TIME_BETWEEN_WAVES 36
 # define ENEMIES_ARRAY_SIZE 100
 # define FRIENDS_ARRAY_SIZE 30
+
 # define BACKGROUND_ARRAY_SIZE 100
+# define BASE_HP 10
 
-# define BASE_HP 300
 
+# define DEFAULT_ENEMY_SPEED	240
+# define DEFAULT_BULLET_SPEED	160
+# define DEFAULT_SHOOTING_RATE	720
 // === ENUMS ==
 
 typedef enum e_entity_type
@@ -88,7 +92,7 @@ typedef struct s_weapon
 	char	sprite;
 	int		speed;
 	int		active;
-	int		last_shoot_time;
+	int		shooting_rate;
 }			t_weapon;
 
 // TODO: implement this
@@ -144,6 +148,7 @@ void		game_update(t_game *game);
 int			entity_advance(t_entity *entity);
 int			entity_check_collision(t_entity entity, t_entity other);
 void		entity_set_weapon(t_entity *entity, char sprite, int speed);
+void		generate_wave(t_game *game);
 
 // input
 void		handle_input(t_game *game);

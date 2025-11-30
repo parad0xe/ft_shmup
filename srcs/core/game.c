@@ -18,7 +18,6 @@ static t_entity *_find_available_slot(t_entity *array, size_t size)
 
 	i = -1;
 	// TODO: Improve performance by indexing the maximum unused index instead of iterating over the entire entity array.
-
 	while (++i < size)
 	{
 		if (array[i].active == 0)
@@ -29,7 +28,7 @@ static t_entity *_find_available_slot(t_entity *array, size_t size)
 
 void	game_init(t_game *game)
 {
-	game->status= RUNNING;
+	game->status = RUNNING;
 	game->last_frame_time = time_in_milliseconds();
 	game->stat = (t_game_stat){
 		.hp = BASE_HP,
@@ -40,8 +39,16 @@ void	game_init(t_game *game)
 	game->fps_start_time = time_in_milliseconds();
 	game->fps = 0.;
 	game->frame_counter = 0;
-
 	set_player1(&game->player);
+}
+
+void	enemy_shoot(t_game *game, t_entity *enemy)
+{
+	if (enemy->weapon.shooting_rate == 0)
+		return ;
+	if (game->frame_counter % enemy->weapon.shooting_rate == 0)
+		if (randint(0, 100) < 5)
+			game_shoot(game, *enemy, set_bullet1);
 }
 
 int	game_shoot(t_game *game, t_entity shooter, void (*set_bullet)(t_entity shooter, t_entity *bullet))
@@ -103,7 +110,7 @@ void	game_destroy_entity(t_game *game, t_entity *entity)
 // TODO: put that elsewhere
 int		is_out_of_box(t_entity *entity)
 {
-	if (entity->position.x >= 0 && entity->position.x <= GAME_WIDTH - 1)
+	if (entity->position.x >= 1 && entity->position.x <= GAME_WIDTH - 2)
 		return (entity->position.y <= 0 || entity->position.y > GAME_HEIGHT- 1);
 	return (TRUE);
 }
@@ -132,6 +139,9 @@ void	game_update(t_game *game)
 		game->status = OVER;
 		return ;
 	}
+
+	if (TIME_BETWEEN_WAVES / MAX_FPS == 0 && randint(0, 100) < 7)
+		game_add_enemy(game);
 
 	// FOR EACH FRIEND
 
@@ -174,8 +184,8 @@ void	game_update(t_game *game)
 			continue ;
 
 		// shoot probability for enemy
-		if (enemies[i].type == ENEMY && randfloat(0, 1) < 0.005)
-			game_shoot(game, enemies[i], &set_bullet1);
+		// if (enemies[i].type == ENEMY && randfloat(0, 1) < 0.005)
+		enemy_shoot(game, &enemies[i]);
 
 		// check collision between player and the entity
 		if (entity_check_collision(game->player, enemies[i]))
