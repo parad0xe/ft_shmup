@@ -3,18 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:56:54 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/29 20:24:19 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 03:08:21 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
 
-void	add_badguy1(t_board	*board, size_t index)
+void	set_enemy_badguy1(t_entity *enemy)
 {
-	(void)board;
-	(void)index;
+	enemy->type = ENEMY;
+	enemy->sprite = '@';
+	enemy->position = (t_xy){ 
+		.x = GAME_WIDTH-1, 
+		.y = randint(1, GAME_HEIGHT - 1) 
+	};
+	enemy->direction = (t_xy){ 
+		.x = -1, 
+		.y = 0 
+	};
+	enemy->speed = 3000;
+	enemy->active = 1;
+	entity_set_weapon(enemy, '-', 2000);
 }
-

@@ -12,14 +12,17 @@ LIBS=-lncurses
 # files
 SRC_DIRECTORY = srcs
 SRCS=$(addprefix $(SRC_DIRECTORY)/,\
-	utils.c \
-	game.c \
-	main.c \
-	entity.c \
-	render_utils.c \
-	ui.c \
+	core/game.c \
+	core/entity.c \
+	entities/enemy.c \
+	entities/player.c \
+	entities/bullet.c \
+	renderer/ui_renderer.c \
+	renderer/game_renderer.c \
+	utils/time_utils.c \
+	utils/rand_utils.c \
 	input.c \
-	enemy.c \
+	main.c \
 )
 
 OBJS = $(SRCS:$(SRC_DIRECTORY)/%.c=$(BUILD)/%.o)

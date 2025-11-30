@@ -3,27 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 15:37:51 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/29 20:23:47 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 02:14:57 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
 
-int		check_collisions(t_game_entity entity, t_game_entity *others)
+int		entity_check_collision(t_entity entity, t_entity other)
 {
-	(void)entity;
-	(void)others;
-	return (0) ;//TODO: implement
+	if (entity.active && other.active)
+		if (entity.position.x == other.position.x)
+			if (entity.position.y == other.position.y)
+				return (1);
+	return (0);
 }
 
-void	shoot(t_board *board, t_game_entity *entity)
+void	entity_set_weapon(t_entity *entity, char sprite, int speed)
 {
-	(void)board;
-	(void)entity;
-	//TODO: make entities shoot (with correct directions according to their type)
+	entity->weapon.sprite = sprite;
+	entity->weapon.speed = speed;
+	entity->weapon.active = 1;
+	entity->weapon.last_shoot_time = 0;
+}
+
+/**
+	* @brief makes passed entity advance according to its direction.
+*/
+int	entity_advance(t_entity *entity)
+{
+	entity->position.y += entity->direction.y;
+	entity->position.x += entity->direction.x;
+	return (1);
 }
 
 /**
@@ -33,19 +46,12 @@ void	generate_wave(void)
 {
 	//TODO: write a function that randomly creates enemies or not for each row.
 	for (int i = 0; i < GAME_HEIGHT; ++i)
-	
+	{
 		if (rand() / RAND_MAX > 0.7 )
 		{
 			
 		}
-}
-
-int	add_entity(t_board *board, t_type type)
-{
-	(void)board;
-	(void)type;
-	// determines the first free index, and adds a random entity .
-	return (0);
+	}
 }
 
 /**
@@ -56,13 +62,4 @@ void	generate_enemy(t_board *board, int row)
 	(void)board;
 	(void)row;
 	//TODO: implement this function
-}
-/**
-	* @brief makes passed entity advance according to its direction.
-*/
-int	advance_entity(t_game_entity *entity)
-{
-	entity->position[ROW] += entity->direction[ROW];
-	entity->position[COL] += entity->direction[COL];
-	return (0);
 }
