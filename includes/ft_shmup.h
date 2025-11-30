@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 03:17:49 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 14:21:44 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@
 # define TIME_BETWEEN_WAVES 36
 # define ENEMIES_ARRAY_SIZE 100
 # define FRIENDS_ARRAY_SIZE 30
+
+# define BACKGROUND_ARRAY_SIZE 100
 # define BASE_HP 10
+
 
 # define DEFAULT_ENEMY_SPEED	240
 # define DEFAULT_BULLET_SPEED	160
@@ -56,7 +59,8 @@ typedef enum e_entity_type
 	PLAYER = 0,
 	ENEMY,
 	PLAYER_LASER,
-	ENEMY_LASER
+	ENEMY_LASER,
+	BACKGROUND
 }	t_entity_type;
 
 typedef enum e_game_status
@@ -115,6 +119,7 @@ typedef struct s_board
 	size_t		first_available_index;
 	t_entity	enemies[ENEMIES_ARRAY_SIZE];
 	t_entity	friends[FRIENDS_ARRAY_SIZE];
+	t_entity	background[BACKGROUND_ARRAY_SIZE];
 	int			entity_counter;
 }	t_board;
 
@@ -156,6 +161,9 @@ void		set_player1(t_entity *player);
 
 // bullet
 void		set_bullet1(t_entity shooter, t_entity *bullet);
+
+// background
+void	set_background(t_entity *slot);
 
 // game_renderer
 void		game_render(t_game *game, WINDOW *gamewin);

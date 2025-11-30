@@ -17,6 +17,7 @@ SRCS=$(addprefix $(SRC_DIRECTORY)/,\
 	entities/enemy.c \
 	entities/player.c \
 	entities/bullet.c \
+	entities/background.c \
 	renderer/ui_renderer.c \
 	renderer/game_renderer.c \
 	utils/time_utils.c \
