@@ -36,7 +36,7 @@ static void	_handle_input_player(t_game *game, int ch)
 				game->player.position.x += 1;
 			break ;
 		case 'e':
-			game_add_entity(game, &set_enemy_badguy1);
+			game_add_enemy(game);
 			break ;
 		case ' ':
 			game_shoot(game, game->player, &set_bullet1);

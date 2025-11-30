@@ -16,9 +16,15 @@ static void	_render_entities(t_game *game, WINDOW *gamewin)
 {
 	t_entity current;
 
-	for (int i = 0; i < ENTITY_ARRAY_SIZE; ++i)
+	for (int i = 0; i < FRIENDS_ARRAY_SIZE; ++i)
 	{
-		current = game->board.entities[i];
+		current = game->board.friends[i];
+		if(current.active)
+			mvwprintw(gamewin, current.position.y, current.position.x, "%c", current.sprite);
+	}
+	for (int i = 0; i < ENEMIES_ARRAY_SIZE; ++i)
+	{
+		current = game->board.enemies[i];
 		if(current.active)
 			mvwprintw(gamewin, current.position.y, current.position.x, "%c", current.sprite);
 	}
@@ -36,8 +42,7 @@ void    game_render(t_game *game, WINDOW *gamewin)
 		"%c",
 		game->player.sprite
 	);
-	
-	_render_entities(game, gamewin);
 
+	_render_entities(game, gamewin);
 	wrefresh(gamewin);
 }

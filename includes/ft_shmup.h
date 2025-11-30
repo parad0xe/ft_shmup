@@ -38,8 +38,9 @@
 # define GAMEOVER_WIDTH		GAME_WIDTH/2
 
 
-# define ENTITY_ARRAY_SIZE 100
-# define BASE_HP 3
+# define ENEMIES_ARRAY_SIZE 100
+# define FRIENDS_ARRAY_SIZE 30
+# define BASE_HP 300
 
 
 // === ENUMS ==
@@ -106,7 +107,8 @@ typedef struct s_entity
 typedef struct s_board
 {
 	size_t		first_available_index;
-	t_entity	entities[ENTITY_ARRAY_SIZE];
+	t_entity	enemies[ENEMIES_ARRAY_SIZE];
+	t_entity	friends[FRIENDS_ARRAY_SIZE];
 	int			entity_counter;
 }	t_board;
 
@@ -126,7 +128,8 @@ typedef struct s_game
 // game
 void		game_init(t_game *game);
 int			game_shoot(t_game *game, t_entity shooter, void (*set_bullet)(t_entity shooter, t_entity *bullet));
-int			game_add_entity(t_game *game, void (*set_entity)(t_entity *entity));
+// int			game_add_entity(t_entity *entity_array, size_t slot, void (*set_entity)(t_entity *entity));
+int			game_add_enemy(t_game *game);
 void		game_update(t_game *game);
 
 // entity
