@@ -26,7 +26,7 @@ void	entity_set_weapon(t_entity *entity, char sprite, int speed)
 	entity->weapon.sprite = sprite;
 	entity->weapon.speed = speed;
 	entity->weapon.active = 1;
-	entity->weapon.last_shoot_time = 0;
+	entity->weapon.shooting_rate = DEFAULT_SHOOTING_RATE / MAX_FPS;
 }
 
 /**
@@ -42,15 +42,14 @@ int	entity_advance(t_entity *entity)
 /**
  * @brief for each row, choose at random wether to spawn an enemy.
  */
-void	generate_wave(void)
+void	generate_wave(t_game *game)
 {
 	//TODO: write a function that randomly creates enemies or not for each row.
-	for (int i = 0; i < GAME_HEIGHT; ++i)
+	
+	for (int i = 0; i < 8; ++i)
 	{
-		if (rand() / RAND_MAX > 0.7 )
-		{
-			
-		}
+		if (randint(0, 100) < 50)
+			game_add_enemy(game);
 	}
 }
 
