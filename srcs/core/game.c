@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 10:28:53 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 03:13:42 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 15:18:38 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,21 @@ int	game_add_enemy(t_game *game)
 	return (0);
 }
 
+int	game_add_background(t_game *game)
+{
+	t_entity	*new;
+	t_entity	*background;
+
+	background = game->board.background;
+	new = _find_available_slot(background, BACKGROUND_ARRAY_SIZE);
+	if (new)
+	{
+		set_background(new);
+		game->board.entity_counter++;
+	}
+	return (0);
+}
+
 void	game_destroy_entity(t_game *game, t_entity *entity)
 {
 	if (entity->active)
@@ -103,9 +118,11 @@ void	game_update(t_game *game)
 {
 	t_entity *enemies;
 	t_entity *friends;
+	t_entity *background;
 
 	enemies = game->board.enemies;
 	friends = game->board.friends;
+	background = game->board.background;
 
 	++game->frame_counter;
 	// TODO: Improve performance by indexing the maximum unused index instead of iterating over the entire entity array.
@@ -128,6 +145,21 @@ void	game_update(t_game *game)
 			entity_advance(&friends[i]);
 		if (is_out_of_box(&friends[i]))
 			game_destroy_entity(game, &friends[i]);
+	}
+
+	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; ++i)
+	{
+		if (randfloat(0, 1) < 0.0005)
+			game_add_background(game);
+		
+		if (background[i].active == 0)
+			continue ;
+		else if (background[i].speed == 0)
+			continue ;
+		if (game->frame_counter % background[i].speed == 0)
+			entity_advance(&background[i]);
+		if (is_out_of_box(&background[i]))
+			game_destroy_entity(game, &background[i]);
 	}
 
 	// FOR EACH ENEMY
@@ -187,7 +219,7 @@ void	game_update(t_game *game)
 		if (is_out_of_box(&enemies[i]))
 			game_destroy_entity(game, &enemies[i]);
 	}
-	while ((time_in_milliseconds() - game->last_frame_time ) <= 1000 * (1. / (MAX_FPS)))
+	while ((time_in_milliseconds() - game->last_frame_time) <= 1000 * (1. / (MAX_FPS)))
 		usleep(500);
 	game->last_frame_time = time_in_milliseconds();
 }

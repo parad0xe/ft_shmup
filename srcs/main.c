@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:11:54 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 04:01:33 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 14:05:59 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ int	main(void)
 	WINDOW	*gameoverwin = subwin(stdscr, GAMEOVER_HEIGHT, GAMEOVER_WIDTH, center_y - GAMEOVER_HEIGHT / 2, center_x - GAMEOVER_WIDTH / 2);
 	//TODO: look for failed allocation
 
+	attron(COLOR_PAIR(1) | A_DIM);
+	for (int i = 0; i < x; i++)
+		for (int j = 0; j < y; j++)
+			wprintw(stdscr, "+");
+	attroff(COLOR_PAIR(1) | A_DIM);
 	game_init(&game);
 	while (game.status != OVER && game.status != STOPPED)
 	{
-		attron(COLOR_PAIR(1) | A_DIM);
-		wprintw(stdscr, "+");
-		attroff(COLOR_PAIR(1) | A_DIM);
 		
 		// handlers
 		handle_input(&game);
