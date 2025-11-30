@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 16:30:37 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 17:00:31 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@
 
 # include <ncurses.h>
 # include <sys/time.h>
-
 # include <time.h>
 # include <stdlib.h>
-
+# include <string.h>
 # include <unistd.h>
 
 // == MACROS
 
 # define MAX_WIDTH 			90
 
-# define MENU_HEIGHT		5
+# define MENU_HEIGHT		15
 # define MENU_WIDTH			MAX_WIDTH
 
 # define GAME_HEIGHT		20
@@ -54,6 +53,17 @@
 
 # define MEMORY_ERROR_MSG "Memory allocation failed\n"
 # define ERR_NOCOLORS "Your terminal does not support color\n"
+# define ERR_RESIZED "Terminal was resized\n"
+
+# define SWAG1 " ___ _         _                           \n"
+# define SWAG2 "/  _| |       | |                          \n"
+# define SWAG3 "| |_| |_   ___| |__  _ __ ___  _   _ _ __  \n"
+# define SWAG4 "|  _| __| / __| '_ \\| '_ ` _ \\| | | | '_ \\ \n"
+# define SWAG5 "| | | |_  \\__ \\ | | | | | | | | |_| | |_) |\n"
+# define SWAG6 "|_|  \\__| |___/_| |_|_| |_| |_|\\__,_| .__/ \n"
+# define SWAG7 "     ______                        | |    \n"
+# define SWAG8 "    |______|  kbarru & nlallema    |_|    \n"
+
 // === ENUMS ==
 
 typedef enum e_entity_type
@@ -73,14 +83,6 @@ typedef enum e_game_status
 	STOPPED
 }	t_game_status;
 
-typedef enum e_dir
-{
-	UP = 0,
-	RIGHT,
-	DOWN,
-	LEFT
-}	t_dir;
-
 // == STRUCTS ==
 
 typedef struct s_xy
@@ -91,38 +93,37 @@ typedef struct s_xy
 
 typedef struct s_weapon
 {
-	char	sprite;
-	int		speed;
-	int		active;
-	int		shooting_rate;
+	unsigned int	speed;
+	unsigned int	active;
+	unsigned int	shooting_rate;
+	char			sprite;
 }			t_weapon;
 
-// TODO: implement this
 typedef struct s_game_stat
 {
-	int			hp;
-	size_t		n_kills;
-	long long	start_time;
+	long long		start_time;
+	unsigned int	hp;
+	unsigned int	n_kills;
 }	t_game_stat;
 
 typedef struct s_entity
 {
 	t_entity_type	type;
 	t_weapon		weapon;
-	char			sprite;
 	t_xy			position;
 	t_xy			direction;
 	int				speed;
 	int				active;
+	char			sprite;
 }	t_entity;
 
 typedef struct s_board
 {
-	size_t		first_available_index;
-	t_entity	enemies[ENEMIES_ARRAY_SIZE];
-	t_entity	friends[FRIENDS_ARRAY_SIZE];
-	t_entity	background[BACKGROUND_ARRAY_SIZE];
-	int			entity_counter;
+	t_entity		enemies[ENEMIES_ARRAY_SIZE];
+	t_entity		friends[FRIENDS_ARRAY_SIZE];
+	t_entity		background[BACKGROUND_ARRAY_SIZE];
+	int				entity_counter;
+	unsigned int	first_available_index;
 }	t_board;
 
 typedef struct s_game
@@ -131,18 +132,19 @@ typedef struct s_game
 	t_game_status	status;
 	t_entity		player;
 	t_board			board;
-	double			fps;
 	long long		fps_start_time;
 	long long		last_frame_time;
-	size_t			frame_counter;
+	double			fps;
+	unsigned int	frame_counter;
 }	t_game;
 
-// entity
-int			entity_advance(t_entity *entity);
-int			entity_check_collision(t_entity entity, t_entity other);
-void		entity_set_weapon(t_entity *entity, char sprite, int speed);
-void		generate_wave(t_game *game);
-
+typedef struct s_windows
+{
+	WINDOW	*gamewin;
+	WINDOW	*menuwin;
+	WINDOW	*pausewin;
+	WINDOW	*gameoverwin;
+}	t_windows;
 // input
 void		handle_input(t_game *game);
 
@@ -157,14 +159,6 @@ void		set_bullet1(t_entity shooter, t_entity *bullet);
 
 // background
 void		set_background(t_entity *slot);
-
-// game_renderer
-void		game_render(t_game *game, WINDOW *gamewin);
-
-// ui_renderer
-void		gameover_render(t_game *game, WINDOW *gameoverwin);
-void		menu_render(t_game *game, WINDOW *menuwin);
-void		pause_render(WINDOW *pausewin);
 
 // time_utils
 long long	time_in_milliseconds(void);

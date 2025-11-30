@@ -6,12 +6,11 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:57:29 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/30 01:29:48 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/11/30 16:44:42 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
-#include "ncurses.h"
 #include "core.h"
 
 static void	_handle_input_player(t_game *game, int ch)
@@ -20,19 +19,19 @@ static void	_handle_input_player(t_game *game, int ch)
 		return ;
 	switch (ch)
 	{
-		case KEY_UP:
+		case 'w':
 			if (game->player.position.y - 1 > 0)
 				game->player.position.y -= 1;
 			break ;
-		case KEY_DOWN:
+		case 's':
 			if (game->player.position.y + 1 < GAME_HEIGHT - 1)
 				game->player.position.y += 1;
 			break ;
-		case KEY_LEFT:
+		case 'a':
 			if (game->player.position.x - 1 > 0)
 				game->player.position.x -= 1;
 			break ;
-		case KEY_RIGHT:
+		case 'd':
 			if (game->player.position.x + 1 < GAME_WIDTH - 1)
 				game->player.position.x += 1;
 			break ;
@@ -61,9 +60,11 @@ void	handle_input(t_game *game)
 			else if (game->status == RUNNING)
 				game->status = PAUSED;
 			break ;
+		case 'r':
+			if (game->status == OVER)
+				game->status = RUNNING;
+			break ;
 		default:
 			_handle_input_player(game, ch);
 	}
 }
-
-
