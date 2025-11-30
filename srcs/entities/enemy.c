@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 10:43:10 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/29 10:45:42 by nlallema         ###   ########lyon.fr   */
+/*   Created: 2025/11/29 16:56:54 by kbarru            #+#    #+#             */
+/*   Updated: 2025/11/30 03:08:21 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_shmup.h"
 
-long long	timeInMilliseconds(void)
+void	set_enemy_badguy1(t_entity *enemy)
 {
-	struct timeval	tv;
-	long long	ms;
-
-	gettimeofday(&tv,NULL);
-	ms = tv.tv_sec * 1000;
-	ms += tv.tv_usec / 1000;
-	return (ms);
+	enemy->type = ENEMY;
+	enemy->sprite = '@';
+	enemy->position = (t_xy){ 
+		.x = GAME_WIDTH-1, 
+		.y = randint(1, GAME_HEIGHT - 1) 
+	};
+	enemy->direction = (t_xy){ 
+		.x = -1, 
+		.y = 0 
+	};
+	enemy->speed = 180 / MAX_FPS;
+	enemy->active = 1;
+	entity_set_weapon(enemy, '-', 160 / MAX_FPS);
 }

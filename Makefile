@@ -5,15 +5,23 @@ CC = cc
 BUILD = build
 
 # flags
-CFLAGS = -MMD -MP -Wall -Wextra -Werror
+CFLAGS = -MMD -MP -Wall -Wextra -Werror -g
 
 LIBS=-lncurses
 
 # files
 SRC_DIRECTORY = srcs
 SRCS=$(addprefix $(SRC_DIRECTORY)/,\
-	utils.c \
-	game.c \
+	core/game.c \
+	core/entity.c \
+	entities/enemy.c \
+	entities/player.c \
+	entities/bullet.c \
+	renderer/ui_renderer.c \
+	renderer/game_renderer.c \
+	utils/time_utils.c \
+	utils/rand_utils.c \
+	input.c \
 	main.c \
 )
 
