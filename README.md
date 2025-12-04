@@ -63,7 +63,7 @@ __Tip:__ Movement uses classic "WASD" controls for smooth navigation.
 
 ## Contributors (42 student)
 * [nlallema](https://github.com/parad0xe)
-* [kbarru]()
+* [kbarru](https://github.com/ki-ba)
 
 ---
 
