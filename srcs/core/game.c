@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 10:28:53 by nlallema          #+#    #+#             */
-/*   Updated: 2025/12/04 17:00:15 by nlallema         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:08:22 by nlallema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static int	_game_add_background(t_game *game, void (f)(t_entity*))
 
 static void	_enemy_shoot(t_game *game, t_entity *enemy)
 {
+	if (enemy->active == 0)
+		return ;
 	if (enemy->weapon.shooting_rate == 0)
 		return ;
 	if (game->frame_counter % enemy->weapon.shooting_rate == 0)
@@ -74,7 +76,7 @@ void	game_init(t_game *game)
 	game->fps = 0.;
 	game->frame_counter = 0;
 	set_player1(&game->player);
-	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; ++i)
+	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; i++)
 	{
 		if (randfloat(0, 1) < 0.102)
 			_game_add_background(game, set_background_randpos);
@@ -125,7 +127,7 @@ void	game_update_player_position(t_game *game, int x, int y)
 		return ;
 	game->player.position.x += x;
 	game->player.position.y += y;
-	for (int i = 0; i < ENEMIES_ARRAY_SIZE; ++i)
+	for (int i = 0; i < ENEMIES_ARRAY_SIZE; i++)
 	{
 		if (entity_check_collision(player, game->board.enemies[i]))
 		{
@@ -170,11 +172,11 @@ void	game_update(t_game *game)
 		game->status = OVER;
 		return ;
 	}
-	if (TIME_BETWEEN_WAVES / MAX_FPS == 0 && randint(0, 100) < 7)
+	if (game->frame_counter % (TIME_BETWEEN_WAVES / MAX_FPS) == 0 && randint(0, 100) < 7)
 		game_add_enemy(game);
 
 	// FOR EACH FRIEND
-	for (int i = 0; i < FRIENDS_ARRAY_SIZE; ++i)
+	for (int i = 0; i < FRIENDS_ARRAY_SIZE; i++)
 	{
 		if (friends[i].active == 0)
 			continue ;
@@ -186,7 +188,7 @@ void	game_update(t_game *game)
 			_game_destroy_entity(game, &friends[i]);
 	}
 
-	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; ++i)
+	for (int i = 0; i < BACKGROUND_ARRAY_SIZE; i++)
 	{
 		if (randfloat(0, 1) < 0.002)
 			_game_add_background(game, set_background);
@@ -203,7 +205,7 @@ void	game_update(t_game *game)
 	// FOR EACH ENEMY
 	// every friendly entity just advanced.
 	// Check for collisions with updated friends and then advance.
-	for (int i = 0; i < ENEMIES_ARRAY_SIZE; ++i)
+	for (int i = 0; i < ENEMIES_ARRAY_SIZE; i++)
 	{
 		if (enemies[i].active == 0)
 			continue ;
@@ -227,7 +229,7 @@ void	game_update(t_game *game)
 		else
 		{
 			// check collision between any friend and the entity
-			for (int j = 0; j < FRIENDS_ARRAY_SIZE; ++j)
+			for (int j = 0; j < FRIENDS_ARRAY_SIZE; j++)
 			{
 				if (entity_check_collision(enemies[i], friends[j]))
 				{
@@ -241,8 +243,6 @@ void	game_update(t_game *game)
 		}
 		if (!enemies[i].active)
 			continue ;
-		// shoot probability for enemy
-		_enemy_shoot(game, &enemies[i]);
 		if (game->frame_counter % enemies[i].speed == 0)
 		{
 			entity_advance(&enemies[i]);
@@ -253,8 +253,8 @@ void	game_update(t_game *game)
 				_game_destroy_entity(game, &enemies[i]);
 			}
 		}
-		if (is_out_of_box(&enemies[i]))
-			_game_destroy_entity(game, &enemies[i]);
+		// shoot probability for enemy
+		_enemy_shoot(game, &enemies[i]);
 	}
 	long long dif = (1000000 * 1. / (MAX_FPS)) - (time_in_us() - game->last_frame_time);
 	if (dif >= 0)

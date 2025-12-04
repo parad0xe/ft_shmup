@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/12/04 16:44:13 by nlallema         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:10:51 by nlallema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 
 # define MAX_FPS			60
 
-# define TIME_BETWEEN_WAVES 36
+# define TIME_BETWEEN_WAVES 300
 # define ENEMIES_ARRAY_SIZE 100
 # define FRIENDS_ARRAY_SIZE 30
 
