@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 23:58:05 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 14:49:17 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/12/04 12:30:08 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,30 @@ static void	_render_entities(t_game *game, WINDOW *gamewin)
 		wattroff(gamewin, COLOR_PAIR(random_color) | A_DIM);
 	}
 	
+	wattron(gamewin, COLOR_PAIR(2) | A_DIM);
 	for (int i = 0; i < FRIENDS_ARRAY_SIZE; ++i)
 	{
 		current = game->board.friends[i];
 		if(current.active)
 			mvwaddch(gamewin, current.position.y, current.position.x, current.sprite);
 	}
+	wattroff(gamewin, COLOR_PAIR(2) | A_DIM);
 	for (int i = 0; i < ENEMIES_ARRAY_SIZE; ++i)
 	{
 		current = game->board.enemies[i];
-		if(current.active)
+		if(current.active && current.type == ENEMY_LASER)
 		{
-			if (current.type == ENEMY)
-				wattron(gamewin, COLOR_PAIR(3) | A_BOLD);
-			else if (current.type == ENEMY_LASER)
-				wattron(gamewin, COLOR_PAIR(2) | A_BOLD);
+			wattron(gamewin, COLOR_PAIR(2) | A_BOLD);
+			mvwaddch(gamewin, current.position.y, current.position.x, current.sprite);
+			wattroff(gamewin, COLOR_PAIR(2) | A_BOLD | A_DIM);
+		}
+	}
+	for (int i = 0; i < ENEMIES_ARRAY_SIZE; ++i)
+	{
+		current = game->board.enemies[i];
+		if(current.active && current.type == ENEMY)
+		{
+			wattron(gamewin, COLOR_PAIR(3) | A_BOLD);
 			mvwaddch(gamewin, current.position.y, current.position.x, current.sprite);
 			wattroff(gamewin, COLOR_PAIR(2) | A_BOLD | A_DIM);
 		}

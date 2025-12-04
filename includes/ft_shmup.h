@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 17:00:31 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/04 12:15:44 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void		set_player1(t_entity *player);
 
 // bullet
 void		set_bullet1(t_entity shooter, t_entity *bullet);
+void		set_enemy_bullet1(t_entity shooter, t_entity *bullet);
 
 // background
 void		set_background(t_entity *slot);

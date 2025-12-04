@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:53:03 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/30 14:51:44 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/12/04 12:20:55 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	gameover_render(t_game *game, WINDOW *gameoverwin)
 
 void	pause_render(WINDOW *pausewin)
 {
+	werase(pausewin);
 	wborder(pausewin, 0, 0, 0, 0, 0, 0, 0, 0);
 	mvwprintw(pausewin, PAUSE_HEIGHT - PAUSE_HEIGHT / 2 - 1, PAUSE_WIDTH - PAUSE_WIDTH / 2 - 3, "PAUSED");
 	wrefresh(pausewin);

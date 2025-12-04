@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 10:28:53 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 16:40:00 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/04 12:18:01 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	_enemy_shoot(t_game *game, t_entity *enemy)
 		return ;
 	if (game->frame_counter % enemy->weapon.shooting_rate == 0)
 		if (randint(0, 100) < 5)
-			game_shoot(game, *enemy, set_bullet1);
+			game_shoot(game, *enemy, set_enemy_bullet1);
 }
 
 static void	_game_destroy_entity(t_game *game, t_entity *entity)

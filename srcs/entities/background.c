@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 13:44:32 by nlallema          #+#    #+#             */
-/*   Updated: 2025/11/30 14:35:46 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/12/04 12:17:31 by nlallema         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void	set_background(t_entity *slot)
 	if (random < 0.3)
 	{
 		slot->sprite = 'o';
-		slot->speed = 300 / MAX_FPS;
+		slot->speed = 200 / MAX_FPS;
 	}
 	else if (random < 0.7)
 	{
 		slot->sprite = '*';
-		slot->speed = 400 / MAX_FPS;
+		slot->speed = 300 / MAX_FPS;
 	}
 	else	
 	{
 		slot->sprite = '.';
-		slot->speed = 500 / MAX_FPS;
+		slot->speed = 100 / MAX_FPS;
 	}
 	slot->position = (t_xy){ 
 		.x = GAME_WIDTH-2, 
