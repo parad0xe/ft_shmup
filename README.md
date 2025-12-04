@@ -13,7 +13,7 @@ Move your ship, dodge enemies, and shoot to survive as long as possible!
 
 ---
 
-## INSTALLATION
+## Installation
 
 Make sure you have the required dependencies:
 
@@ -36,7 +36,7 @@ make
 
 ---
 
-## USAGE
+## Usage
 
 Run the game with:
 
@@ -46,7 +46,7 @@ Run the game with:
 
 ---
 
-## CONTROLS
+## Controls
 
 * **W** : Move up  
 * **A** : Move left  
