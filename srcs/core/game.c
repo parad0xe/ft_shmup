@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 10:28:53 by nlallema          #+#    #+#             */
-/*   Updated: 2025/12/04 12:18:01 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/12/04 17:00:15 by nlallema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,8 +209,6 @@ void	game_update(t_game *game)
 			continue ;
 		else if (enemies[i].speed == 0)
 			continue ;
-		// shoot probability for enemy
-		_enemy_shoot(game, &enemies[i]);
 		// check collision between player and the entity
 		if (entity_check_collision(game->player, enemies[i]))
 		{
@@ -241,6 +239,10 @@ void	game_update(t_game *game)
 				}
 			}
 		}
+		if (!enemies[i].active)
+			continue ;
+		// shoot probability for enemy
+		_enemy_shoot(game, &enemies[i]);
 		if (game->frame_counter % enemies[i].speed == 0)
 		{
 			entity_advance(&enemies[i]);

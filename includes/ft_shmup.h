@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 08:28:18 by nlallema          #+#    #+#             */
-/*   Updated: 2025/12/04 12:15:44 by nlallema         ###   ########lyon.fr   */
+/*   Updated: 2025/12/04 16:44:13 by nlallema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 # define DEFAULT_BULLET_SPEED	160
 # define DEFAULT_SHOOTING_RATE	720
 
-# define MEMORY_ERROR_MSG "Memory allocation failed\n"
+# define MEMORY_ERROR_MSG "Memory allocation failed - Try reduce your terminal size\n"
 # define ERR_NOCOLORS "Your terminal does not support color\n"
 # define ERR_RESIZED "Terminal was resized\n"
 
