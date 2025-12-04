@@ -6,7 +6,7 @@
 /*   By: nlallema <nlallema@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 10:28:53 by nlallema          #+#    #+#             */
-/*   Updated: 2025/12/04 18:08:22 by nlallema         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:24:07 by nlallema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,8 @@ void	game_update(t_game *game)
 			}
 		}
 		// shoot probability for enemy
-		_enemy_shoot(game, &enemies[i]);
+		if (enemies[i].type == ENEMY)
+			_enemy_shoot(game, &enemies[i]);
 	}
 	long long dif = (1000000 * 1. / (MAX_FPS)) - (time_in_us() - game->last_frame_time);
 	if (dif >= 0)
